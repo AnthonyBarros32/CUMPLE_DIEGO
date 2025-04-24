@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>¡Feliz Cumpleaños Diego!</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    .star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 2s infinite alternate;
+    }
+
+    @keyframes twinkle {
+      from { opacity: 0.1; }
+      to { opacity: 1; }
+    }
+
+    .birthday-text {
+      position: absolute;
+      top: 40%;
+      width: 100%;
+      text-align: center;
+      font-size: 4em;
+      color: #FFD700;
+      text-shadow: 0 0 10px #FF6347, 0 0 20px #FF4500, 0 0 40px #FF4500;
+      z-index: 10;
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: -100px;
+      width: 50px;
+      height: 70px;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      animation: floatUp linear forwards;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-120vh); }
+    }
+
+    .firework {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: hsl(0, 100%, 50%);
+      border-radius: 50%;
+      animation: explode 1s ease-out forwards;
+    }
+
+    @keyframes explode {
+      0% { transform: scale(0); opacity: 1; }
+      100% { transform: scale(1.5); opacity: 0; }
+    }
+
+    .message {
+      position: absolute;
+      font-size: 1.4em;
+      opacity: 0;
+      transition: opacity 2s;
+      z-index: 5;
+      color: white;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    }
+  </style>
+</head>
+<body>
+
+<div class="birthday-text">¡Feliz Cumpleaños Diego! 🎉</div>
+
+<script>
+  // Estrellas de fondo
+  for (let i = 0; i < 150; i++) {
+    const star = document.createElement('div');
+    star.classList.add('star');
+    star.style.left = Math.random() * 100 + 'vw';
+    star.style.top = Math.random() * 100 + 'vh';
+    star.style.animationDelay = Math.random() * 5 + 's';
+    document.body.appendChild(star);
+  }
+
+  // Globos multicolores
+  function createBalloon() {
+    const balloon = document.createElement('div');
+    balloon.className = 'balloon';
+    balloon.style.left = Math.random() * 100 + 'vw';
+    const duration = Math.random() * 10 + 15;
+    balloon.style.animationDuration = duration + 's';
+
+    const colors = ['#FF4E50', '#F9D423', '#45ADA8', '#547980', '#594F4F'];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    balloon.style.background = `radial-gradient(circle at 30% 30%, ${randomColor}, #ffffff)`;
+
+    document.body.appendChild(balloon);
+    setTimeout(() => balloon.remove(), duration * 1000);
+  }
+  setInterval(createBalloon, 1200);
+
+  // Fuegos artificiales de colores vivos
+  function createFirework() {
+    const count = 20;
+    for (let i = 0; i < count; i++) {
+      const firework = document.createElement('div');
+      firework.className = 'firework';
+      const hue = Math.random() * 360;
+      firework.style.background = `hsl(${hue}, 100%, 50%)`;
+
+      const angle = (Math.PI * 2) * (i / count);
+      const distance = Math.random() * 100 + 50;
+      const x = Math.cos(angle) * distance;
+      const y = Math.sin(angle) * distance;
+      const centerX = Math.random() * window.innerWidth;
+      const centerY = Math.random() * window.innerHeight / 2;
+
+      firework.style.left = centerX + 'px';
+      firework.style.top = centerY + 'px';
+      firework.style.transform = `translate(${x}px, ${y}px) scale(0)`;
+      document.body.appendChild(firework);
+
+      setTimeout(() => firework.remove(), 1000);
+    }
+  }
+  setInterval(createFirework, 4000);
+
+  // Mensajes aleatorios bonitos sin superponer texto central
+  const messages = [
+    "¡Te mereces lo mejor!",
+    "Hoy es tu día, Diego 🎂",
+    "Que todos tus sueños se hagan realidad 💫",
+    "Sigue brillando como siempre 🌟",
+    "Una vuelta más al sol y mucho por vivir ✨",
+    "¡Felicidades, crack! 🎈",
+    "Un año más sabio y fuerte 💪",
+    "¡Celebra a lo grande! 🎉"
+  ];
+  let lastMessageIndex = -1;
+
+  function showRandomMessage() {
+    let index;
+    do {
+      index = Math.floor(Math.random() * messages.length);
+    } while (index === lastMessageIndex);
+    lastMessageIndex = index;
+
+    const message = document.createElement('div');
+    message.className = 'message';
+    message.innerText = messages[index];
+
+    let x, y;
+    do {
+      x = Math.random() * 80;
+      y = Math.random() * 80;
+    } while (x > 25 && x < 75 && y > 30 && y < 60);  // evita zona de texto central
+
+    message.style.left = `${x}vw`;
+    message.style.top = `${y}vh`;
+    document.body.appendChild(message);
+
+    setTimeout(() => message.style.opacity = 1, 100);
+    setTimeout(() => message.style.opacity = 0, 5000);
+    setTimeout(() => message.remove(), 7000);
+  }
+  setInterval(showRandomMessage, 3000);
+</script>
+
+</body>
+</html>
